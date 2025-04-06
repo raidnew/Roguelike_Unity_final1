@@ -9,7 +9,7 @@ public class UserInput : MonoBehaviour
 
     void Update()
     {
-        
+
         float horizontal = Input.GetAxis(Constants.horizontal);
 
         if (horizontal != 0)

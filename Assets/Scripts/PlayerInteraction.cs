@@ -5,14 +5,11 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Health))]
 public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
 {
     public Action OnDied;
 
-    [SerializeField] private GameObject _boots;
-    [SerializeField] private GameObject _sword;
     [SerializeField] private Transform _shootPoint;
     [Header("Movement settings")]
     [SerializeField] private float _jumpPower;
@@ -20,15 +17,13 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
     [SerializeField] private float _pushPower;
-    [SerializeField] private string _textCantRun;
     [SerializeField] private Transform _bubbleLink;
-
+    [SerializeField] private Animator _playerAnimator;
 
     private bool _isRun = false;
     private bool _isAttack = false;
     private bool _isShoot = false;
     private Rigidbody2D _playerRigitBody2D;
-    private Animator _playerAnimator;
     private Health _health;
 
     private List<IGround> _groundAreTouching = new List<IGround>();
@@ -108,7 +103,7 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
 
     private bool IsAllowAttack
     {
-        get { return _health.CurrentPercent > 0 && !_isAttack && IsOnGround && _sword.activeSelf; }
+        get { return _health.CurrentPercent > 0 && !_isAttack && IsOnGround; }
     }
 
     public void Move(float value)
@@ -122,11 +117,6 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
 
     public void Run(bool isRun)
     {
-        if (!_boots.activeSelf)
-        {
-            isRun = false;
-            Bubble.Message(_textCantRun, _bubbleLink);
-        }
         IsRun = isRun;
     }
 
@@ -156,7 +146,6 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
     private void Awake()
     {
         _playerRigitBody2D = GetComponent<Rigidbody2D>();
-        _playerAnimator = GetComponent<Animator>();
         _health = GetComponent<Health>();
         _health.OnDied += Die;
         IsFlip = true;
