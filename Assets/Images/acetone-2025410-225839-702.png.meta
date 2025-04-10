@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 691328355614d58488493ad922a0e0b3
+guid: f8f824cde4713544192135130bad3aef
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6432664113146767449
-    second: acetone-202542-194144-204_0
+      213: -7551775193022442160
+    second: acetone-2025410-225839-702_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: acetone-202542-194144-204_0
+      name: acetone-2025410-225839-702_0
       rect:
         serializedVersion: 2
-        x: 96
-        y: 311
-        width: 808
-        height: 385
+        x: 55
+        y: 240
+        width: 922
+        height: 497
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a7db7022169ab6a0800000000000000
-      internalID: -6432664113146767449
+      spriteID: 0555a441974b23790800000000000000
+      internalID: -7551775193022442160
       vertices: []
       indices: 
       edges: []
@@ -151,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      acetone-202542-194144-204_0: -6432664113146767449
+      acetone-2025410-225839-702_0: -7551775193022442160
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
