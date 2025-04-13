@@ -18,12 +18,6 @@ public class UserInput : MonoBehaviour
         if (Input.GetButtonDown(Constants.jump))
             _interactiveObject.Jump();
 
-        if (Input.GetButtonDown(Constants.run))
-            _interactiveObject.Run(true);
-
-        if (Input.GetButtonUp(Constants.run))
-            _interactiveObject.Run(false);
-
         if (Input.GetButtonDown(Constants.fire1))
             _interactiveObject.Attack();
 

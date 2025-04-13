@@ -15,12 +15,11 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
     [SerializeField] private float _jumpPower;
     [SerializeField] private float _airHorizontalSpeed;
     [SerializeField] private float _walkSpeed;
-    [SerializeField] private float _runSpeed;
     [SerializeField] private float _pushPower;
     [SerializeField] private Transform _bubbleLink;
-    [SerializeField] private Animator _playerAnimator;
+    [SerializeField] private AstronautAnimation _playerAnimator;
+    [SerializeField] private AstronautAnimationEvents _animationEvents;
 
-    private bool _isRun = false;
     private bool _isAttack = false;
     private bool _isShoot = false;
     private Rigidbody2D _playerRigitBody2D;
@@ -32,18 +31,6 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         get {
             if (_groundAreTouching.Count == 0) return null;
             return _groundAreTouching.Last();
-        }
-    }
-
-    private bool _isFlip = false;
-
-    private bool IsFlip
-    {
-        get => _isFlip;
-        set
-        {
-            _isFlip = value;
-            transform.localScale = new Vector3((value ? 1 : -1), 1, 1);
         }
     }
 
@@ -62,35 +49,6 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         }
     }
 
-    private bool IsAttack
-    {
-        get { return _isAttack; }
-        set
-        {
-            _isAttack = value;
-            _playerAnimator.SetBool("IsAttack", _isAttack);
-        }
-    }
-    private bool IsShoot
-    {
-        get { return _isShoot; }
-        set
-        {
-            _isShoot = value;
-            _playerAnimator.SetBool("IsShoot", _isShoot);
-        }
-    }
-
-    private bool IsRun
-    {
-        get { return _isRun; }
-        set
-        {
-            _isRun = value;
-            _playerAnimator.SetBool("IsRun", _isRun);
-        }
-    }
-
     private bool IsAllowSetHSpeed
     {
         get { return _health.CurrentPercent > 0 && !_isAttack; }
@@ -101,23 +59,17 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         get { return _health.CurrentPercent > 0 && !_isAttack && IsOnGround; }
     }
 
-    private bool IsAllowAttack
+    private bool IsAllowShoot
     {
-        get { return _health.CurrentPercent > 0 && !_isAttack && IsOnGround; }
+        get { return _health.CurrentPercent > 0 && !_isShoot && IsOnGround; }
     }
 
     public void Move(float value)
     {
         float currentHorizontalSpeed = 0;
-        if (!IsOnGround) currentHorizontalSpeed = _airHorizontalSpeed;
-        else currentHorizontalSpeed = (IsRun ? _runSpeed : _walkSpeed);
+        currentHorizontalSpeed = IsOnGround? _walkSpeed : _airHorizontalSpeed;
         currentHorizontalSpeed *= value;
         SetHSpeed(currentHorizontalSpeed);
-    }
-
-    public void Run(bool isRun)
-    {
-        IsRun = isRun;
     }
 
     public void Jump()
@@ -127,28 +79,48 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
 
     public void Attack()
     {
+        /*
         if (IsAllowAttack)
         {
+            _isAttack = true;
             SetHSpeed(0);
-            IsAttack = true;
+            _playerAnimator.StartAttack();
         }
+        */
+    }
+
+    private void FinishAttack()
+    {
+        //_isAttack = false;
     }
 
     public void Shoot()
     {
-        if (IsAllowAttack)
+        Debug.Log($"Shoot   {_health.CurrentPercent} > 0 && !{_isShoot} && {IsOnGround};");
+        if (IsAllowShoot)
         {
+            Debug.Log("2");
+            _isShoot = true;
             SetHSpeed(0);
-            IsShoot = true;
+            _playerAnimator.StartShoot();
         }
+    }
+
+    private void FinishShoot()
+    {
+        Debug.Log("FinishShoot");
+        _isShoot = false;
     }
 
     private void Awake()
     {
         _playerRigitBody2D = GetComponent<Rigidbody2D>();
         _health = GetComponent<Health>();
-        _health.OnDied += Die;
-        IsFlip = true;
+        _health.OnDied += StartDie;
+
+        _animationEvents.OnFinishAttack += FinishAttack;
+        _animationEvents.OnFinishShoot += FinishShoot;
+        _animationEvents.OnFinishDieAnimation += Die;
     }
 
     private void FixedUpdate()
@@ -162,6 +134,8 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
             _groundAreTouching.Add(ground);
         else if (_groundAreTouching.Contains(ground))
             _groundAreTouching.Remove(ground);
+
+        _playerAnimator.OnGround(IsOnGround);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -202,19 +176,8 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
     {
         Vector2 relativeSpeed = _playerRigitBody2D.linearVelocity;
         if (IsOnGround) relativeSpeed -= CurrentGround.Speed;
-
-        if (relativeSpeed.x < -0.5)
-            IsFlip = false;
-        else if (relativeSpeed.x > 0.5)
-            IsFlip = true;
-
-        SetVerticalSpeed((int)(relativeSpeed.y * 10));
-        _playerAnimator.SetInteger("HSpeed", (int)(relativeSpeed.x * 10));
-    }
-
-    private void SetVerticalSpeed(int verticalSpeed)
-    {
-        _playerAnimator.SetInteger("VSpeed", verticalSpeed);
+        _playerAnimator.SetHorizontalSpeed(relativeSpeed.x);
+        _playerAnimator.SetVerticalSpeed(relativeSpeed.y);
     }
 
     private void CreateBullet()
@@ -229,24 +192,18 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         //_weapon.StartHit();
     }
 
-    private void OnFinishAttack()
-    {
-        //_weapon.StopHit();
-        IsAttack = false;
-    }
-
     private void OnShoot()
     {
-        IsShoot = false;
+        //IsShoot = false;
         CreateBullet();
     }
 
-    private void Die()
+    private void StartDie()
     {
-        _playerAnimator.SetBool("IsAlive", _health.CurrentPercent > 0);
+        _playerAnimator.StartDie();
     }
 
-    private void OnFinishDie()
+    private void Die()
     {
         OnDied?.Invoke();
     }
