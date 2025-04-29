@@ -6,9 +6,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Health))]
-public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
+public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 {
-    public Action OnDied;
+    public Action Die;
+    public Action Shot;
 
     [SerializeField] private Transform _shootPoint;
     [Header("Movement settings")]
@@ -120,7 +121,7 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
 
         _animationEvents.OnFinishAttack += FinishAttack;
         _animationEvents.OnFinishShoot += FinishShoot;
-        _animationEvents.OnFinishDieAnimation += Die;
+        _animationEvents.OnFinishDieAnimation += OnDieFinish;
     }
 
     private void FixedUpdate()
@@ -164,7 +165,7 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         if (collision.gameObject.TryGetComponent<IDamager>(out damager))
             _health.Damage(damager.Damage);
         IDiedArea diedArea;
-        if (collision.gameObject.TryGetComponent<IDiedArea>(out diedArea))
+        if (collision.gameObject.TryGetComponent<IDiedArea>(out diedArea)) 
             _health.Damage(_health.CurrentHealth);
         IHealer healer;
         if (collision.gameObject.TryGetComponent<IHealer>(out healer))
@@ -203,9 +204,9 @@ public class PlayerInteraction : MonoBehaviour, IInputListener, IPlayer
         _playerAnimator.StartDie();
     }
 
-    private void Die()
+    private void OnDieFinish()
     {
-        OnDied?.Invoke();
+        Die?.Invoke();
     }
 
     private void SetHSpeed(float speed)

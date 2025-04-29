@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UserInput : MonoBehaviour
 {
-    [SerializeField] private PlayerInteraction _interactiveObject;
+    [SerializeField] private Astronaut _interactiveObject;
 
     void Update()
     {

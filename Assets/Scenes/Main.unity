@@ -393,7 +393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e510868b1ceba8041a7becc557f5434c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
 --- !u!58 &34115430
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1540,7 +1539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e510868b1ceba8041a7becc557f5434c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
 --- !u!58 &600103561
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3009,6 +3007,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785620798}
   - component: {fileID: 1785620799}
+  - component: {fileID: 1785620800}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -3044,6 +3043,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _windowsManager: {fileID: 865456613}
+--- !u!114 &1785620800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785620797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae196c8bf8db914c8b5ee27b39cfa4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1828395608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3331,6 +3342,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e3df58bf6c96478a4e57ec22ed3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _btnPlay: {fileID: 295596913}
+  _btnHelp: {fileID: 1213894310}
+  _btnSetting: {fileID: 743714674}
 --- !u!1 &2012630861
 GameObject:
   m_ObjectHideFlags: 0
@@ -3503,7 +3517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e510868b1ceba8041a7becc557f5434c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
 --- !u!58 &2119779391
 CircleCollider2D:
   m_ObjectHideFlags: 0

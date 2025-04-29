@@ -32,7 +32,7 @@ public class AstronautAnimation : MonoBehaviour
 
     public void StartDie()
     {
-        _animator.SetBool("IsAlive", true);
+        _animator.SetBool("IsAlive", false);
     }
 
     public void SetVerticalSpeed(float speed)
