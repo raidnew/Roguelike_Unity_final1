@@ -6,5 +6,6 @@
     void Die();
     bool CanAttack();
     bool CanMove();
+    void Damage();
 
 }

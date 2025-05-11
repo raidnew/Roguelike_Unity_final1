@@ -11,7 +11,7 @@ public class Button : MonoBehaviour
     [SerializeField] private GameObject _disableView;
     [SerializeField] private GameObject _textField;
     [SerializeField] private ButtonsHitArea _hitArea;
-    [SerializeField] private bool isEnable = true;
+    //[SerializeField] private bool isEnable = true;
 
     void Start()
     {

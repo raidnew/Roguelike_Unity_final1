@@ -1,5 +1,5 @@
 ﻿public interface IWeapon
 {
-    public float Damage { get; }
+    public float DamageValue { get; }
 }
 

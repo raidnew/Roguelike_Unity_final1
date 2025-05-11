@@ -17,5 +17,6 @@ public class WindowMain : WindowBase
     private void OnPlayClick()
     {
         PlayClick?.Invoke();
+        Close();
     }
 }

@@ -8,9 +8,9 @@ public class Game : MonoBehaviour
     
     void Start()
     {
-        _windowsManager.OpenWindowMain();
         WindowMain.PlayClick += StartLevel;
         Level.LevelFailed += OnLevelFailed;
+        _windowsManager.OpenWindowMain();
     }
 
     void Update()
@@ -20,8 +20,8 @@ public class Game : MonoBehaviour
 
     private void OnLevelFailed()
     {
-        Debug.Log("fdsfsdaf");
         SceneManager.LoadScene("Main");
+        _windowsManager.OpenWindowDied();
     }
 
     private void StartLevel()
