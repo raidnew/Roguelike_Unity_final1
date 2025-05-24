@@ -1212,7 +1212,6 @@ MonoBehaviour:
   _disableView: {fileID: 998948160}
   _textField: {fileID: 0}
   _hitArea: {fileID: 600103559}
-  isEnable: 1
 --- !u!1 &310164891
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,7 +1709,6 @@ MonoBehaviour:
   _disableView: {fileID: 141147982}
   _textField: {fileID: 0}
   _hitArea: {fileID: 2119779390}
-  isEnable: 1
 --- !u!1 &790657314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,7 +2418,6 @@ MonoBehaviour:
   _disableView: {fileID: 802204547}
   _textField: {fileID: 0}
   _hitArea: {fileID: 0}
-  isEnable: 1
 --- !u!1 &1213894308
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,7 +2478,6 @@ MonoBehaviour:
   _disableView: {fileID: 2012630861}
   _textField: {fileID: 0}
   _hitArea: {fileID: 34115429}
-  isEnable: 1
 --- !u!1 &1285176829
 GameObject:
   m_ObjectHideFlags: 0

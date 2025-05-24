@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : PropertyProvider
 {
     public Action OnDied;
+    public Action SetHealth;
 
     [SerializeField] private float _maxHealth;
-    //[SerializeField] private ProgressBar _healthBar;
 
     private float _currentHealth;
 
@@ -48,7 +48,7 @@ public class Health : MonoBehaviour
 
     private void SetHealthBar()
     {
-        //_healthBar?.SetProgress(CurrentHealth / _maxHealth);
+        SetValue?.Invoke(CurrentHealth / _maxHealth);
     }
 
     private void CheckAlive()

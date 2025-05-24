@@ -14,14 +14,13 @@ public abstract class Enemy : MonoBehaviour, IEnemy
 
     public virtual void Die() => throw new System.NotImplementedException();
 
+    public void Damage() => throw new System.NotImplementedException();
+
     protected void Flip(bool isFlip)
     {
         transform.localScale = new Vector3((isFlip ? 1 : -1), 1, 1);
     }
 
-    public void Damage()
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }
 

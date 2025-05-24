@@ -51,10 +51,7 @@ public class Sceleton : Enemy
         SetHSpeed(0);
     }
 
-    public override void Attack()
-    {
-        IsAttack = true;
-    }
+    public override void Attack() => IsAttack = true;
 
     public override void Die()
     {
@@ -64,7 +61,7 @@ public class Sceleton : Enemy
     private void SetHSpeed(float speed)
     {
         if (speed != 0) Flip(speed < 0);
-        _rb.linearVelocity = new Vector2(speed, 0);
+        _rb.linearVelocity = new Vector2(speed, _rb.linearVelocity.y);
         _animator.SetInteger("HSpeed", (int)speed);
     }
 
