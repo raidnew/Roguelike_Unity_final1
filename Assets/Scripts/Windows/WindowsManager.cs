@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,16 +13,23 @@ public class WindowsManager : MonoBehaviour
 
     private List<WindowBase> _openedWindows;
 
+    private static bool _inited = false;
+
     private void Awake()
     {
-        CloseAllWindows();
-        _openedWindows = new List<WindowBase>();
-        WindowBase.windowOpened += OnWindowOpen;
-        WindowBase.windowClosed += OnWindowClose;
+        if (!_inited)
+        {
+            CloseAllWindows();
+            _openedWindows = new List<WindowBase>();
+            WindowBase.windowOpened += OnWindowOpen;
+            WindowBase.windowClosed += OnWindowClose;
+            _inited = true;
+        }
     }
 
     private void CheckBackground()
     {
+        Debug.Log(_openedWindows.Count);
         if (_openedWindows.Count > 0)
         {
             _backgroungImage.SetActive(true);
@@ -36,13 +44,15 @@ public class WindowsManager : MonoBehaviour
 
     private void OnWindowOpen(WindowBase window)
     {
+        Debug.Log($"open {window}");
         _openedWindows.Add(window);
         CheckBackground();
     }
 
     private void OnWindowClose(WindowBase window)
     {
-        _openedWindows.Remove(window);
+        string res = _openedWindows.Remove(window) ? "found" : "notfound";
+        Debug.Log($"remove {window} {res}");
         CheckBackground();
     }
 

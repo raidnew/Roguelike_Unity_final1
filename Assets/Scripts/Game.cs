@@ -5,12 +5,14 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     [SerializeField] private WindowsManager _windowsManager;
-    
+    private static int _startCount = 0;
+
     void Start()
     {
         WindowMain.PlayClick += StartLevel;
+        WindowDied.ClickReplay += StartLevel;
         Level.LevelFailed += OnLevelFailed;
-        _windowsManager.OpenWindowMain();
+        if (_startCount == 0) _windowsManager.OpenWindowMain();
     }
 
     void Update()
@@ -26,6 +28,7 @@ public class Game : MonoBehaviour
 
     private void StartLevel()
     {
+        _startCount++;
         SceneManager.LoadScene("Level1");
     }
 }

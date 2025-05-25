@@ -9,7 +9,18 @@ public class WindowMain : WindowBase
     [SerializeField] private Button _btnHelp;
     [SerializeField] private Button _btnSetting;
 
+    private static bool _inited = false;
+
     private void Awake()
+    {
+        if (!_inited)
+        {
+            InitWindow();
+            _inited = true;
+        }
+    }
+
+    private void InitWindow()
     {
         _btnPlay.Click += OnPlayClick;
     }

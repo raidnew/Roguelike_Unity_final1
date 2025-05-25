@@ -6,6 +6,7 @@ public class WindowBase : MonoBehaviour, IWindow
 {
     public static Action<WindowBase> windowOpened;
     public static Action<WindowBase> windowClosed;
+
     public void Close()
     {
         windowClosed?.Invoke(this);
@@ -14,7 +15,6 @@ public class WindowBase : MonoBehaviour, IWindow
 
     public void Open()
     {
-        Debug.Log("AAA");
         windowOpened?.Invoke(this);
         gameObject.SetActive(true);
     }

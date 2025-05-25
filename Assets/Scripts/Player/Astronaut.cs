@@ -20,6 +20,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     [SerializeField] private Transform _bubbleLink;
     [SerializeField] private AstronautAnimation _playerAnimator;
     [SerializeField] private AstronautAnimationEvents _animationEvents;
+    [SerializeField] private Oxigen _oxigenStorage;
 
     private bool _isAttack = false;
     private bool _isShoot = false;
@@ -97,10 +98,8 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     public void Shoot()
     {
-        Debug.Log($"Shoot   {_health.CurrentPercent} > 0 && !{_isShoot} && {IsOnGround};");
         if (IsAllowShoot)
         {
-            Debug.Log("2");
             _isShoot = true;
             SetHSpeed(0);
             _playerAnimator.StartShoot();
@@ -109,7 +108,6 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     private void FinishShoot()
     {
-        Debug.Log("FinishShoot");
         _isShoot = false;
     }
 
@@ -118,6 +116,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         _playerRigitBody2D = GetComponent<Rigidbody2D>();
         _health = GetComponent<Health>();
         _health.OnDied += StartDie;
+        _oxigenStorage.GetEmpty += OnOxigetEmpty;
 
         _animationEvents.OnFinishAttack += FinishAttack;
         _animationEvents.OnFinishShoot += FinishShoot;
@@ -127,6 +126,11 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     private void FixedUpdate()
     {
         SetupAnimationSpeed();
+    }
+
+    private void OnOxigetEmpty()
+    {
+        _health.Damage(_health.CurrentHealth);
     }
 
     private void SetTouchGround(IGround ground, bool touch)
