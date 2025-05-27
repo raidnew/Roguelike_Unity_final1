@@ -56,6 +56,7 @@ public class WindowsManager : MonoBehaviour
 
     private void OnWindowClose(WindowBase window)
     {
+        _openedWindows.Remove(window);
         CheckBackground();
     }
 

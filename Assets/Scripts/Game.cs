@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     [SerializeField] private WindowsManager _windowsManager;
-    private static int _startCount = 0;
+    private static bool _firstInit = true;
 
     private void Start()
     {
-        if (_startCount++ == 0)
+        if (_firstInit)
+        {
+            _firstInit = false;
             Init();
+        }
     }
 
     private void Init()
@@ -23,14 +26,12 @@ public class Game : MonoBehaviour
 
     private void OnLevelFailed()
     {
-        Debug.Log("OnLevelFailed");
         SceneManager.LoadScene("Main");
         _windowsManager.OpenWindowDied();
     }
 
     private void StartLevel()
     {
-        _startCount++;
         SceneManager.LoadScene("Level1");
     }
 }

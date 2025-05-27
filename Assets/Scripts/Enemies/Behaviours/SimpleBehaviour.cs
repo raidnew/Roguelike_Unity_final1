@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
-public class SceletonBehaviour : MonoBehaviour
+public class SimpleBehaviour : MonoBehaviour
 {
     [SerializeField] private float _attackDistance;
     [SerializeField] private EnemyObserver _sight;

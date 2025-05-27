@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b199202a8789784081a0cc14c80f721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 447907968654826693}
   _timeBeetweenAttack: 2
   _baseSpeed: 2
 --- !u!114 &1406752597250720100

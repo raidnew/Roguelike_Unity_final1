@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
-public class Sceleton : Enemy
+public class WalkedEnemy : Enemy
 {
     [SerializeField] private EnemyWeapon _weapon;
     [SerializeField] private float _timeBeetweenAttack;
