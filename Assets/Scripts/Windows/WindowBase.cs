@@ -18,4 +18,26 @@ public class WindowBase : MonoBehaviour, IWindow
         windowOpened?.Invoke(this);
         gameObject.SetActive(true);
     }
+
+    virtual protected void InitWindow()
+    {
+
+    }
+
+    virtual protected void DeinitWindow()
+    {
+
+    }
+
+    private void OnEnable()
+    {
+        InitWindow();
+    }
+
+    private void OnDisable()
+    {
+        DeinitWindow();
+    }
+
+
 }

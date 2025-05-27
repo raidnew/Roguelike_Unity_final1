@@ -11,25 +11,31 @@ public class WindowsManager : MonoBehaviour
     [SerializeField] private GameObject _tintArea;
     [SerializeField] private GameObject _backgroungImage;
 
-    private List<WindowBase> _openedWindows;
-
-    private static bool _inited = false;
+    private static List<WindowBase> _openedWindows;
 
     private void Awake()
     {
-        if (!_inited)
+        if (_openedWindows == null)
         {
-            CloseAllWindows();
             _openedWindows = new List<WindowBase>();
-            WindowBase.windowOpened += OnWindowOpen;
-            WindowBase.windowClosed += OnWindowClose;
-            _inited = true;
+            InitEvents();
         }
+    }
+
+    private void InitEvents()
+    {
+        WindowBase.windowOpened += OnWindowOpen;
+        WindowBase.windowClosed += OnWindowClose;
+    }
+
+    private void DeinitEvents()
+    {
+        WindowBase.windowOpened -= OnWindowOpen;
+        WindowBase.windowClosed -= OnWindowClose;
     }
 
     private void CheckBackground()
     {
-        Debug.Log(_openedWindows.Count);
         if (_openedWindows.Count > 0)
         {
             _backgroungImage.SetActive(true);
@@ -44,23 +50,19 @@ public class WindowsManager : MonoBehaviour
 
     private void OnWindowOpen(WindowBase window)
     {
-        Debug.Log($"open {window}");
         _openedWindows.Add(window);
         CheckBackground();
     }
 
     private void OnWindowClose(WindowBase window)
     {
-        string res = _openedWindows.Remove(window) ? "found" : "notfound";
-        Debug.Log($"remove {window} {res}");
         CheckBackground();
     }
 
     public void CloseAllWindows()
     {
-        _windowMain.Close();
-        _windowWin.Close();
-        _windowDied.Close();
+        while (_openedWindows.Count > 0)
+            _openedWindows[0].Close();
     }
 
     public void OpenWindowMain()

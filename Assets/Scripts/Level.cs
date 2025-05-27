@@ -8,9 +8,19 @@ public class Level : MonoBehaviour
 
     [SerializeField] private Astronaut _player;
 
-    private void Awake()
+    private void OnEnable()
     {
         InitEvents();
+    }
+
+    private void OnDisable()
+    {
+        DeinitEvents();
+    }
+
+    private void DeinitEvents()
+    {
+        _player.Die -= OnPlayerDied;
     }
 
     private void InitEvents()

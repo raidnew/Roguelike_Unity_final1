@@ -7,20 +7,14 @@ public class WindowDied : WindowBase
 
     [SerializeField] private Button _replayButton;
 
-    private static bool _inited = false;
-
-    private void Awake()
-    {
-        if (!_inited)
-        {
-            InitWindow();
-            _inited = true;
-        }
-    }
-
-    private void InitWindow()
+    override protected void InitWindow()
     {
         _replayButton.Click += OnPlayClick;
+    }
+
+    override protected void DeinitWindow()
+    {
+        _replayButton.Click -= OnPlayClick;
     }
 
     private void OnPlayClick()
