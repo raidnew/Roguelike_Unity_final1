@@ -22,6 +22,7 @@ public class Bubble : MonoBehaviour
 
     private ITalkBubble ShowBubble(string message, Transform teller)
     {
+        Debug.Log("AAAAAAAAA");
         int controlsumm = GetControlSumm(message, teller.GetInstanceID());
         if (!CheckAlreadyBubble(controlsumm))
         {

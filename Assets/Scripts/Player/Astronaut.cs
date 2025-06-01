@@ -193,6 +193,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     private Bullet CreateBullet()
     {
         Bullet bullet = Instantiate<Bullet>(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
+        
         bullet.AddForce(new Vector2(_bulletSpeed, 0));
         return bullet;
     }
