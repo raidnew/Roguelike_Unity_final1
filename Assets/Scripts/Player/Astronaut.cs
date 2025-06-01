@@ -9,7 +9,7 @@ using UnityEngine;
 public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 {
     public Action Die;
-    public Action Shot;
+    public Action<Bullet> BeginBullet;
 
     [SerializeField] private Transform _shootPoint;
     [Header("Movement settings")]
@@ -17,6 +17,8 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     [SerializeField] private float _airHorizontalSpeed;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _pushPower;
+    [SerializeField] private float _bulletSpeed;
+    [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private Transform _bubbleLink;
     [SerializeField] private AstronautAnimation _playerAnimator;
     [SerializeField] private AstronautAnimationEvents _animationEvents;
@@ -119,6 +121,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         _oxigenStorage.GetEmpty += OnOxigetEmpty;
 
         _animationEvents.OnFinishAttack += FinishAttack;
+        _animationEvents.Bullet += OnBullet;
         _animationEvents.OnFinishShoot += FinishShoot;
         _animationEvents.OnFinishDieAnimation += OnDieFinish;
     }
@@ -165,6 +168,8 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_health.CurrentHealth <= 0) return;
+
         IDamager damager;
         if (collision.gameObject.TryGetComponent<IDamager>(out damager))
             _health.Damage(damager.Damage);
@@ -185,11 +190,11 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         _playerAnimator.SetVerticalSpeed(relativeSpeed.y);
     }
 
-    private void CreateBullet()
+    private Bullet CreateBullet()
     {
-        //Bullet bullet = Instantiate<Bullet>(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
-        //bullet.Flip(IsFlip);
-        //OnCreateBullet?.Invoke(bullet);
+        Bullet bullet = Instantiate<Bullet>(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
+        bullet.AddForce(new Vector2(_bulletSpeed, 0));
+        return bullet;
     }
 
     private void OnDamage()
@@ -197,10 +202,10 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         //_weapon.StartHit();
     }
 
-    private void OnShoot()
+    private void OnBullet()
     {
-        //IsShoot = false;
-        CreateBullet();
+        Bullet bullet = CreateBullet();
+        BeginBullet?.Invoke(bullet);
     }
 
     private void StartDie()

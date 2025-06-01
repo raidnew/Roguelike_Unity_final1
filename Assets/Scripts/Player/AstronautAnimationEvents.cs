@@ -6,7 +6,7 @@ public class AstronautAnimationEvents : MonoBehaviour
     public Action OnFinishAttack;
     public Action OnFinishShoot;
     public Action OnFinishDieAnimation;
-    public Action OnShoot;
+    public Action Bullet;
 
     private void AttackFinish()
     {
@@ -25,6 +25,6 @@ public class AstronautAnimationEvents : MonoBehaviour
 
     private void Shoot()
     {
-        OnShoot?.Invoke();
+        Bullet?.Invoke();
     }
 }

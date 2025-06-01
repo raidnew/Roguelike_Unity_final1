@@ -54,6 +54,9 @@ public class Health : PropertyProvider
     private void CheckAlive()
     {
         if (CurrentHealth <= 0)
+        {
             OnDied?.Invoke();
+            Finish?.Invoke();
+        }
     }
 }

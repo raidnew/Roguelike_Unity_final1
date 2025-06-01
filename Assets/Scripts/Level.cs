@@ -29,6 +29,7 @@ public class Level : MonoBehaviour
     private void DeinitEvents()
     {
         _player.Die -= OnPlayerDied;
+        _player.BeginBullet -= OnBeginBullet;
     }
 
     private void StartLevel()
@@ -39,10 +40,16 @@ public class Level : MonoBehaviour
     private void InitEvents()
     {
         _player.Die += OnPlayerDied;
+        _player.BeginBullet += OnBeginBullet;
     }
 
     private void OnPlayerDied()
     {
         LevelFailed?.Invoke();
+    }
+
+    private void OnBeginBullet(Bullet bullet)
+    {
+        bullet.transform.parent = transform;
     }
 }

@@ -7,13 +7,14 @@ public class Oxigen : PropertyProvider
 
     [SerializeField] private float _startReserve = 10;
     [SerializeField] private float _reserveOnEveryStart = 1.1f;
-    private float _maxReserve = 10;
+
+    private float _maxReserve = 0;
     private float _reserve = 0;
     private float _expendeture = 1;
 
     private void Awake()
     {
-        _maxReserve = _reserve = _maxReserve + Level.CountStarts * _reserveOnEveryStart;
+        _maxReserve = _reserve = _startReserve + Level.CountStarts * _reserveOnEveryStart;
     }
 
     private void Update()
