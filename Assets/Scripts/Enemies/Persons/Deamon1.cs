@@ -27,6 +27,7 @@ public class Deamon1 : MonoBehaviour
     private void OnDied()
     {
         _dieCount++;
+        Debug.Log("Die");
     }
 
     private IEnumerator Behaviour()

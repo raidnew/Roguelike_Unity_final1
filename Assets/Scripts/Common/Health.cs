@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : PropertyProvider
@@ -11,6 +9,7 @@ public class Health : PropertyProvider
     [SerializeField] private float _maxHealth;
 
     private float _currentHealth;
+    private bool _isAlive;
 
     public float CurrentHealth
     {
@@ -30,6 +29,12 @@ public class Health : PropertyProvider
         get { return CurrentHealth / _maxHealth; }
     }
 
+    private void Awake()
+    {
+        CurrentHealth = _maxHealth;
+        _isAlive = true;
+    }
+
     public void Damage(float damageValue)
     {
         CurrentHealth = CurrentHealth - damageValue;
@@ -40,12 +45,6 @@ public class Health : PropertyProvider
         CurrentHealth = CurrentHealth + repairValue;
     }
 
-    private void Awake()
-    {
-        CurrentHealth = _maxHealth;
-        //_healthBar?.Full();
-    }
-
     private void SetHealthBar()
     {
         SetValue?.Invoke(CurrentHealth / _maxHealth);
@@ -53,8 +52,9 @@ public class Health : PropertyProvider
 
     private void CheckAlive()
     {
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && _isAlive)
         {
+            _isAlive = false;
             OnDied?.Invoke();
             Finish?.Invoke();
         }
