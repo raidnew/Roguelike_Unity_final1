@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        _propertyProvider.SetValue += OnSetValue;
+        _propertyProvider.SetPercent += OnSetValue;
         _propertyProvider.Finish += OnFinishProvide;
         _spriteRenderer = _progressBarImage.GetComponent<SpriteRenderer>();
         _transform = _progressBarImage.transform;

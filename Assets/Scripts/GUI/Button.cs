@@ -13,9 +13,15 @@ public class Button : MonoBehaviour
     [SerializeField] private ButtonsHitArea _hitArea;
     //[SerializeField] private bool isEnable = true;
 
-    void Start()
+    private void OnEnable()
     {
         Init();
+        
+    }
+
+    private void OnDisable()
+    {
+        DeinitButton();
     }
 
     private void InitButton()

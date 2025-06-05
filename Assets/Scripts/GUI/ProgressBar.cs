@@ -8,7 +8,7 @@ public class ProgressBar : MonoBehaviour
 
     private void Awake()
     {
-        _propertyProvider.SetValue += OnSetValue;
+        _propertyProvider.SetPercent += OnSetValue;
     }
 
     private void OnSetValue(float value)

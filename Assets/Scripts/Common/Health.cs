@@ -47,7 +47,8 @@ public class Health : PropertyProvider
 
     private void SetHealthBar()
     {
-        SetValue?.Invoke(CurrentHealth / _maxHealth);
+        SetPercent?.Invoke(CurrentHealth / _maxHealth);
+        SetValue?.Invoke((int)CurrentHealth, (int)_maxHealth);
     }
 
     private void CheckAlive()

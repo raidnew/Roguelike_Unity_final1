@@ -22,7 +22,8 @@ public class Oxigen : PropertyProvider
         if (_reserve > 0)
         {
             _reserve -= _expendeture * Time.deltaTime;
-            SetValue(_reserve / _maxReserve);
+            SetPercent?.Invoke(_reserve / _maxReserve);
+            SetValue?.Invoke((int)_reserve, (int)_maxReserve); 
             if (_reserve <= 0) GetEmpty?.Invoke();
         }
     }
