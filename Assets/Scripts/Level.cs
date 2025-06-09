@@ -5,6 +5,7 @@ public class Level : MonoBehaviour
 {
     public static Action LevelFailed;
     public static Action LevelWin;
+    public static Action LevelEnd;
 
     [SerializeField] private Astronaut _player;
 
@@ -45,6 +46,7 @@ public class Level : MonoBehaviour
 
     private void OnPlayerDied()
     {
+        LevelEnd?.Invoke();
         LevelFailed?.Invoke();
     }
 

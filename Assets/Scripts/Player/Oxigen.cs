@@ -11,20 +11,36 @@ public class Oxigen : PropertyProvider
     private float _maxReserve = 0;
     private float _reserve = 0;
     private float _expendeture = 1;
+    private bool _hasConsumer = true;
 
     private void Awake()
     {
         _maxReserve = _reserve = _startReserve + Level.CountStarts * _reserveOnEveryStart;
     }
 
+    private void OnEnable()
+    {
+        Level.LevelEnd += OnLevelEnd;
+    }
+
+    private void OnDisable()
+    {
+        Level.LevelEnd -= OnLevelEnd;
+    }
+
     private void Update()
     {
-        if (_reserve > 0)
+        if (_reserve > 0 && _hasConsumer)
         {
             _reserve -= _expendeture * Time.deltaTime;
             SetPercent?.Invoke(_reserve / _maxReserve);
             SetValue?.Invoke((int)_reserve, (int)_maxReserve); 
             if (_reserve <= 0) GetEmpty?.Invoke();
         }
+    }
+
+    private void OnLevelEnd()
+    {
+        _hasConsumer = false;
     }
 }
