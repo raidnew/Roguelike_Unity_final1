@@ -138,9 +138,6 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     private void SetTouchGround(IGround ground, bool touch)
     {
-
-        Debug.Log($"SetTouchGround {ground} {touch}");
-
         if (touch)
             _groundAreTouching.Add(ground);
         else if (_groundAreTouching.Contains(ground))
