@@ -46346,6 +46346,17 @@ MonoBehaviour:
   _musicButton: {fileID: 657340994}
   _sfxSoundsContainer: {fileID: 8709821}
   _sfxPrefab: {fileID: 8178240966435081610}
+  _soundSources:
+  - _id: 0
+    _sound: {fileID: 8300000, guid: 23633d1b94846e8458e345bf9f616c5a, type: 3}
+  - _id: 3
+    _sound: {fileID: 8300000, guid: 527402b32acedd34483ef94ccef796e0, type: 3}
+  - _id: 2
+    _sound: {fileID: 8300000, guid: cafb9caf584498249a78d581f1e2f1e8, type: 3}
+  - _id: 4
+    _sound: {fileID: 8300000, guid: c16413ab8d8a44a43a5d860b81558d9e, type: 3}
+  - _id: 5
+    _sound: {fileID: 8300000, guid: 642f3535bf137f040a0b2b61a6350b74, type: 3}
 --- !u!4 &2098436191
 Transform:
   m_ObjectHideFlags: 0

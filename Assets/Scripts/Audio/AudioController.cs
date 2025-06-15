@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum SfxSounds { PlayerShot, PlayerJump, DeamonFire, DeamonHit, ALienShot, AlienDied, DeamonDied }
-
 [Serializable]
 public class SoundAssociation
 {
-    [SerializeField] public SfxSound _id;
+    [SerializeField] public SfxId _id;
     [SerializeField] public AudioResource _sound;
 }
 
@@ -22,16 +20,17 @@ public class AudioController : MonoBehaviour
 
 
     private bool _audioEnabled = true;
-    private List<SfxSound> _sfxSources;
+    private List<SfxSound> _sfxSources = new List<SfxSound>();
     private static AudioController _instance;
 
-    public static void PlaySfxSound(SfxSound sound)
+    public static void PlaySfxSound(SfxId sound)
     {
         _instance.PlaySfx(sound);
     }
 
-    private void PlaySfx(SfxSound sound)
+    private void PlaySfx(SfxId sound)
     {
+        if (!_audioEnabled) return;
         AudioResource resource = GetSound(sound);
         if(resource != null){
             SfxSound newSound = Instantiate(_sfxPrefab);
@@ -49,7 +48,7 @@ public class AudioController : MonoBehaviour
         Destroy(sfxSound.gameObject);
     }
 
-    private AudioResource GetSound(SfxSound sound)
+    private AudioResource GetSound(SfxId sound)
     {
         foreach (SoundAssociation soundAssocianion in _soundSources)
         {

@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class ShooterEnemy : Enemy
+public class EnemyAlien : Enemy
 {
     [SerializeField] private float _timeBeetweenAttack;
     [SerializeField] private Transform _barretPoint;
@@ -26,6 +26,7 @@ public class ShooterEnemy : Enemy
         set
         {
             _animator.SetBool("IsShot", value);
+            AudioController.PlaySfxSound(SfxId.AlienShot);
             _isAttack = value;
         }
     }
@@ -52,6 +53,7 @@ public class ShooterEnemy : Enemy
     override public void Die()
     {
         _animator.SetBool("IsAlive", false);
+        AudioController.PlaySfxSound(SfxId.AlienDied);
     }
 
     override public void Move(float direction)

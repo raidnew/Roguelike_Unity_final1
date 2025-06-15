@@ -81,6 +81,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     public void Jump()
     {
         SetVSpeed(_jumpPower);
+        AudioController.PlaySfxSound(SfxId.PlayerJump);
     }
 
     public void Attack()
@@ -106,6 +107,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         {
             _isShoot = true;
             SetHSpeed(0);
+            AudioController.PlaySfxSound(SfxId.PlayerShot);
             _playerAnimator.StartShoot();
         }
     }

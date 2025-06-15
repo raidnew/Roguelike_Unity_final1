@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
-public class WalkedEnemy : Enemy
+public class EnemyDeamon : Enemy
 {
     [SerializeField] private EnemyWeapon _weapon;
     [SerializeField] private float _timeBeetweenAttack;
@@ -21,6 +21,7 @@ public class WalkedEnemy : Enemy
         set
         {
             _animator.SetBool("IsAttack", value);
+            AudioController.PlaySfxSound(SfxId.DeamonHit);
             _isAttack = value;
         }
     }
@@ -56,6 +57,7 @@ public class WalkedEnemy : Enemy
     public override void Die()
     {
         _animator.SetBool("IsAlive", false);
+        AudioController.PlaySfxSound(SfxId.DeamonFire);
     }
 
     private void SetHSpeed(float speed)
