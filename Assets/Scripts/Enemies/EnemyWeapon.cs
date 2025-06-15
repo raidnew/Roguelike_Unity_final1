@@ -9,7 +9,7 @@ public class EnemyWeapon : MonoBehaviour, IDamager
     public Action AttackHasFinished;
     public Action AttackHasStarted;
 
-    public float Damage => 10;
+    public float Damage => 15;
 
     public void StartHit()
     {

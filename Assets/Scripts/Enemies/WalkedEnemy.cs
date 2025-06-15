@@ -51,7 +51,7 @@ public class WalkedEnemy : Enemy
         SetHSpeed(0);
     }
 
-    public override void Attack() => IsAttack = true;
+    public override void Attack(Vector3 target) => IsAttack = true;
 
     public override void Die()
     {

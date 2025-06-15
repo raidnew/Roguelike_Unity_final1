@@ -8,6 +8,7 @@ public class Level : MonoBehaviour
     public static Action LevelEnd;
 
     [SerializeField] private Astronaut _player;
+    [SerializeField] private AudioController _sounds;
 
     private static int _countStarts = 0;
     public static int CountStarts {  get { return _countStarts; } }

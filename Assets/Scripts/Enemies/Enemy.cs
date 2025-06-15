@@ -2,7 +2,7 @@
 
 public abstract class Enemy : MonoBehaviour, IEnemy
 {
-    public virtual void Attack() => throw new System.NotImplementedException();
+    public virtual void Attack(Vector3 target) => throw new System.NotImplementedException();
 
     public virtual bool CanAttack() => throw new System.NotImplementedException();
 

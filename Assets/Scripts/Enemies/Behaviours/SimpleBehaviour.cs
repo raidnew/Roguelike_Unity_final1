@@ -70,7 +70,7 @@ public class SimpleBehaviour : MonoBehaviour
         }
         else if (GetDistanceToTarget() <= _attackDistance && _enemy.CanAttack())
         {
-            _enemy.Attack();
+            _enemy.Attack((Vector3)_targetPosition);
             _enemy.Move(0);
         }
     }

@@ -68,6 +68,8 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         get { return _health.CurrentPercent > 0 && !_isShoot && IsOnGround; }
     }
 
+    public bool IsFlip { get; private set; }
+
     public void Move(float value)
     {
         float currentHorizontalSpeed = 0;
@@ -193,8 +195,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     private Bullet CreateBullet()
     {
         Bullet bullet = Instantiate<Bullet>(_bulletPrefab, _shootPoint.position, _shootPoint.rotation);
-        
-        bullet.AddForce(new Vector2(_bulletSpeed, 0));
+        bullet.AddForce(new Vector2( IsFlip ? -_bulletSpeed : _bulletSpeed, 0));
         return bullet;
     }
 
@@ -225,6 +226,8 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         {
             speed += LastGroundSpeed.x;
             _playerRigitBody2D.linearVelocity = new Vector2(speed, _playerRigitBody2D.linearVelocity.y);
+            if(Math.Abs(speed) > 0)
+                IsFlip = speed < 0;
         }
     }
 
