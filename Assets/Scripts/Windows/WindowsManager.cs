@@ -8,6 +8,8 @@ public class WindowsManager : MonoBehaviour
     [SerializeField] private WindowMain _windowMain;
     [SerializeField] private WindowWin _windowWin;
     [SerializeField] private WindowDied _windowDied;
+    [SerializeField] private WindowHelp _windowHelp;
+    [SerializeField] private WindowSettings _windowSettings;
     [SerializeField] private GameObject _tintArea;
     [SerializeField] private GameObject _backgroungImage;
 
@@ -79,5 +81,15 @@ public class WindowsManager : MonoBehaviour
     public void OpenWindowDied()
     {
         _windowDied.Open();
+    }
+
+    public void OpenWindowHelp()
+    {
+        _windowHelp.Open();
+    }
+
+    public void OpenWindowSetings()
+    {
+        _windowSettings.Open();
     }
 }

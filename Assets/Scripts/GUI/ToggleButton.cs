@@ -14,16 +14,26 @@ public class ToggleButton : MonoBehaviour
 {
     public Action<int> Toggle;
 
+    [SerializeField] private String _storageName;
     [SerializeField] private IconData[] _icons;
     [SerializeField] private GameObject _textField;
     [SerializeField] private ButtonsHitArea _hitArea;
 
-    private int _currentState = 0;
+    public int CurrentState
+    {
+        get
+        {
+            return Settings.Load(_storageName);
+        }
+        private set
+        {
+            Settings.Save(_storageName, value);
+        }
+    }
 
     private void OnEnable()
     {
         Init();
-
     }
 
     private void OnDisable()
@@ -47,28 +57,28 @@ public class ToggleButton : MonoBehaviour
 
     private void OnButtonOver()
     {
-        if (_icons[_currentState]._hoverView)
+        if (_icons[CurrentState]._hoverView)
         {
-            _icons[_currentState]._normalView.SetActive(false);
-            _icons[_currentState]._hoverView.SetActive(true);
+            _icons[CurrentState]._normalView.SetActive(false);
+            _icons[CurrentState]._hoverView.SetActive(true);
         }
     }
 
     private void OnButtonOut()
     {
-        if (_icons[_currentState]._hoverView) 
+        if (_icons[CurrentState]._hoverView) 
         {
-            _icons[_currentState]._normalView.SetActive(true);
-            _icons[_currentState]._hoverView.SetActive(false);
+            _icons[CurrentState]._normalView.SetActive(true);
+            _icons[CurrentState]._hoverView.SetActive(false);
         }
     }
 
     private void OnButtonClick()
     {
-        _currentState = (_currentState + 1) % _icons.Length;
+        CurrentState = (CurrentState + 1) % _icons.Length;
         DisableAllIcons();
         EnableCurrentIcon();
-        Toggle?.Invoke(_currentState);
+        Toggle?.Invoke(CurrentState);
     }
 
     private void DisableAllIcons()
@@ -84,16 +94,17 @@ public class ToggleButton : MonoBehaviour
 
     private void EnableCurrentIcon()
     {
-        _icons[_currentState]._normalView.SetActive(true);
-        if (_icons[_currentState]._hoverView) _icons[_currentState]._hoverView.SetActive(false);
-        if (_icons[_currentState]._pushView) _icons[_currentState]._pushView.SetActive(false);
-        if (_icons[_currentState]._disableView) _icons[_currentState]._disableView.SetActive(false);
+        _icons[CurrentState]._normalView.SetActive(true);
+        if (_icons[CurrentState]._hoverView) _icons[CurrentState]._hoverView.SetActive(false);
+        if (_icons[CurrentState]._pushView) _icons[CurrentState]._pushView.SetActive(false);
+        if (_icons[CurrentState]._disableView) _icons[CurrentState]._disableView.SetActive(false);
     }
 
     private void Init()
     {
         DisableAllIcons();
         EnableCurrentIcon();
+        Toggle?.Invoke(CurrentState);
         InitButton();
     }
 

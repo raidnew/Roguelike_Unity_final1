@@ -13,6 +13,10 @@ public class Oxigen : PropertyProvider
     private float _expendeture = 1;
     private bool _hasConsumer = true;
 
+    public float MaxReserve { get => _maxReserve; }
+    public float CurrentReserve { get => _reserve; }
+
+
     private void Awake()
     {
         _maxReserve = _reserve = _startReserve + Level.CountStarts * _reserveOnEveryStart;

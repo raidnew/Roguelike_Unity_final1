@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class SoundAssociation
@@ -14,12 +15,22 @@ public class AudioController : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private ToggleButton _musicButton;
+    [SerializeField] private ToggleButton _sfxButton;
     [SerializeField] private Transform _sfxSoundsContainer;
     [SerializeField] private SfxSound _sfxPrefab;
     [SerializeField] private SoundAssociation[] _soundSources;
 
+    public bool AudioEnabled
+    {
+        get; private set;
+    }
 
-    private bool _audioEnabled = true;
+    public bool SfxEnabled
+    {
+        get; private set;
+    }
+
+
     private List<SfxSound> _sfxSources = new List<SfxSound>();
     private static AudioController _instance;
 
@@ -30,7 +41,7 @@ public class AudioController : MonoBehaviour
 
     private void PlaySfx(SfxId sound)
     {
-        if (!_audioEnabled) return;
+        if (!SfxEnabled) return;
         AudioResource resource = GetSound(sound);
         if(resource != null){
             SfxSound newSound = Instantiate(_sfxPrefab);
@@ -58,26 +69,32 @@ public class AudioController : MonoBehaviour
         return null;
     }
 
-    private void OnEnable()
+    private void Awake()
     {
         _musicButton.Toggle += OnToggleMusic;
+        _sfxButton.Toggle += OnToggleSfx;
         _instance = this;
+        OnToggleMusic(_musicButton.CurrentState);
+        OnToggleSfx(_sfxButton.CurrentState);
     }
 
     private void OnDisable()
     {
         _musicButton.Toggle -= OnToggleMusic;
+        _sfxButton.Toggle -= OnToggleSfx;
+    }
+
+    private void OnToggleSfx(int state)
+    {
+        SfxEnabled = (state == 0);
     }
 
     private void OnToggleMusic(int state)
     {
-        if(_audioEnabled = (state == 0))
-        {
+        AudioEnabled = (state == 0);
+        if (AudioEnabled)
             _audioSource.Play();
-        }
         else
-        {
             _audioSource.Stop();
-        }
     }
 }

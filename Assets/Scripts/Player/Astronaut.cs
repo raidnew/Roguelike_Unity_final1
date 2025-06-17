@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -23,13 +25,16 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
     [SerializeField] private AstronautAnimation _playerAnimator;
     [SerializeField] private AstronautAnimationEvents _animationEvents;
     [SerializeField] private Oxigen _oxigenStorage;
+    [SerializeField] private Transform _tellerPoint;
+    [SerializeField] private string[] _speeches;
 
     private bool _isAttack = false;
     private bool _isShoot = false;
     private Rigidbody2D _playerRigitBody2D;
     private Health _health;
-
     private List<IGround> _groundAreTouching = new List<IGround>();
+
+    private static int _dieCount = 0;
 
     private IGround CurrentGround{
         get {
@@ -128,6 +133,15 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         _animationEvents.Bullet += OnBullet;
         _animationEvents.OnFinishShoot += FinishShoot;
         _animationEvents.OnFinishDieAnimation += OnDieFinish;
+
+        StartCoroutine(GonnaTalk(GetStartSpeech()));
+    }
+
+    private string GetStartSpeech()
+    {
+        if (_speeches.Length == 0) return "I have crushed, i need alive!";
+        if (_dieCount < _speeches.Length) return _speeches[_dieCount];
+        return _speeches.Last();
     }
 
     private void FixedUpdate()
@@ -152,22 +166,20 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        IGround ground;
-        IPlayer player;
-        bool isPlayer = collision.otherCollider.gameObject.TryGetComponent<IPlayer>(out player);
-        bool isGround = collision.gameObject.TryGetComponent<IGround>(out ground);
-        if (isGround && isPlayer)
+        if (CheckComponent<IGround>(collision.gameObject))
+        {
+            IGround ground = collision.gameObject.GetComponent<IGround>();
             SetTouchGround(ground, true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        IGround ground;
-        IPlayer player;
-        bool isPlayer = collision.otherCollider.gameObject.TryGetComponent<IPlayer>(out player);
-        bool isGround = collision.gameObject.TryGetComponent<IGround>(out ground);
-        if (isGround && isPlayer)
+        if (CheckComponent<IGround>(collision.gameObject))
+        {
+            IGround ground = collision.gameObject.GetComponent<IGround>();
             SetTouchGround(ground, false);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -175,15 +187,16 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         if (_health.CurrentHealth <= 0) return;
 
         IDamager damager;
-        if (collision.gameObject.TryGetComponent<IDamager>(out damager))
-            _health.Damage(damager.Damage);
-        IDiedArea diedArea;
-        if (collision.gameObject.TryGetComponent<IDiedArea>(out diedArea)) 
-            _health.Damage(_health.CurrentHealth);
-        IHealer healer;
-        if (collision.gameObject.TryGetComponent<IHealer>(out healer))
-            _health.Repair(_health.CurrentHealth);
+        if (collision.gameObject.TryGetComponent<IDamager>(out damager)) _health.Damage(damager.Damage);
 
+        if (CheckComponent<IDiedArea>(collision.gameObject)) _health.Damage(_health.CurrentHealth);
+        if (CheckComponent<IHealer>(collision.gameObject)) _health.Repair(_health.CurrentHealth);
+    }
+
+    private bool CheckComponent<T>(GameObject gameObject)
+    {
+        T component;
+        return gameObject.TryGetComponent<T>(out component);
     }
 
     private void SetupAnimationSpeed()
@@ -201,11 +214,6 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
         return bullet;
     }
 
-    private void OnDamage()
-    {
-        //_weapon.StartHit();
-    }
-
     private void OnBullet()
     {
         Bullet bullet = CreateBullet();
@@ -219,6 +227,7 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
 
     private void OnDieFinish()
     {
+        _dieCount++;
         Die?.Invoke();
     }
 
@@ -240,5 +249,11 @@ public class Astronaut : MonoBehaviour, IInputListener, IPlayer
             speed += LastGroundSpeed.y;
             _playerRigitBody2D.linearVelocity = new Vector2(_playerRigitBody2D.linearVelocity.x, speed);
         }
+    }
+
+    private IEnumerator GonnaTalk(string message)
+    {
+        yield return new WaitForSeconds(2);
+        Bubble.Message(message, _tellerPoint);
     }
 }

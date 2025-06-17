@@ -30,6 +30,7 @@ public class EnemyDeamon : Enemy
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _weapon.StopHit();
     }
 
     public override bool CanAttack()
